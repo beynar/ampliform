@@ -5,15 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  cf-rpc:
-    specifier: ^0.0.4
-    version: 0.0.4
-  cookie:
-    specifier: ^0.6.0
-    version: 0.6.0
-  devalue:
-    specifier: ^4.3.2
-    version: 4.3.2
+  superjson:
+    specifier: ^2.2.1
+    version: 2.2.1
 
 devDependencies:
   '@cloudflare/vitest-pool-workers':
@@ -31,6 +25,9 @@ devDependencies:
   '@vitest/ui':
     specifier: ^1.3.0
     version: 1.3.0(vitest@1.3.0)
+  devalue:
+    specifier: ^4.3.2
+    version: 4.3.2
   tsup:
     specifier: ^8.0.2
     version: 8.0.2(typescript@5.4.3)
@@ -1227,29 +1224,6 @@ packages:
       - supports-color
     dev: true
 
-  /cf-rpc@0.0.1:
-    resolution: {integrity: sha512-6Vd62+S3xcRRGT5UX/J6J8A/mBLVp/XMNdCdPcqD3KbP/qjPahIg6LVyvlWQ/MTLU+b80UGbSXSfdzcFEw+9Xw==}
-    dependencies:
-      cookie: 0.6.0
-      js-cookie: 3.0.5
-    dev: false
-
-  /cf-rpc@0.0.2:
-    resolution: {integrity: sha512-8x7Pr6sH/uF7BILpyra8LjOayBfsxuyymg9UcYTXnzU0MVMQRXlHQ6inU9d9kkh9nuMQq651vUdkOa2RSiQxgw==}
-    dependencies:
-      cf-rpc: 0.0.1
-      cookie: 0.6.0
-      js-cookie: 3.0.5
-    dev: false
-
-  /cf-rpc@0.0.4:
-    resolution: {integrity: sha512-dpJuJnMT83ldDNl1EXcG1Xmn62QqyRYWmS81fwXYZdc+RFk67sGkFaewcVyC/o+G8XMQSuCLJEZNL9l4j+C1LQ==}
-    dependencies:
-      cf-rpc: 0.0.2
-      cookie: 0.6.0
-      js-cookie: 3.0.5
-    dev: false
-
   /chai@4.4.1:
     resolution: {integrity: sha512-13sOfMv2+DWduEU+/xbun3LScLoqN17nBeTLUsmDfKdoiC1fr0n9PU4guu4AhRcOVFk/sW8LyZWHuhWtQZiF+g==}
     engines: {node: '>=4'}
@@ -1309,9 +1283,11 @@ packages:
     engines: {node: '>= 0.6'}
     dev: true
 
-  /cookie@0.6.0:
-    resolution: {integrity: sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==}
-    engines: {node: '>= 0.6'}
+  /copy-anything@3.0.5:
+    resolution: {integrity: sha512-yCEafptTtb4bk7GLEQoM8KVJpxAfdBJYaXyzQEgQQQgYrZiDp8SJmGKlYza6CYjEDNstAdNdKA3UuoULlEbS6w==}
+    engines: {node: '>=12.13'}
+    dependencies:
+      is-what: 4.1.16
     dev: false
 
   /cross-spawn@7.0.3:
@@ -1348,6 +1324,7 @@ packages:
 
   /devalue@4.3.2:
     resolution: {integrity: sha512-KqFl6pOgOW+Y6wJgu80rHpo2/3H07vr8ntR9rkkFIRETewbf5GaYYcakYfiKz89K+sLsuPkQIZaXDMjUObZwWg==}
+    dev: true
 
   /diff-sequences@29.6.3:
     resolution: {integrity: sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q==}
@@ -1690,6 +1667,11 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dev: true
 
+  /is-what@4.1.16:
+    resolution: {integrity: sha512-ZhMwEosbFJkA0YhFnNDgTM4ZxDRsS6HqTo7qsZM08fehyRYIYa0yHu5R6mgo1n/8MgaPBXiPimPD77baVFYg+A==}
+    engines: {node: '>=12.13'}
+    dev: false
+
   /isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
     dev: true
@@ -1707,11 +1689,6 @@ packages:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
     engines: {node: '>=10'}
     dev: true
-
-  /js-cookie@3.0.5:
-    resolution: {integrity: sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==}
-    engines: {node: '>=14'}
-    dev: false
 
   /js-tokens@9.0.0:
     resolution: {integrity: sha512-WriZw1luRMlmV3LGJaR6QOJjWwgLUTf89OwT2lUOyjX2dJGBwgmIkbcz+7WFZjrZM635JOIR517++e/67CP9dQ==}
@@ -2294,6 +2271,13 @@ packages:
       pirates: 4.0.6
       ts-interface-checker: 0.1.13
     dev: true
+
+  /superjson@2.2.1:
+    resolution: {integrity: sha512-8iGv75BYOa0xRJHK5vRLEjE2H/i4lulTjzpUXic3Eg8akftYjkmQDa8JARQ42rlczXyFR3IeRoeFCc7RxHsYZA==}
+    engines: {node: '>=16'}
+    dependencies:
+      copy-anything: 3.0.5
+    dev: false
 
   /supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}

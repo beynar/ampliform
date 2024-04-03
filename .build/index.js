@@ -1,1 +1,155 @@
-function M(E){const w=Object.prototype.toString.call(E).slice(8,-1);if(console.log({type:w,thing:E}),w==="Object"&&E instanceof Map)return"Map";if(w==="Object"&&E instanceof Set)return"Set";return w}var Q=function(E){switch(E){case'"':return'\\"';case"<":return"\\u003C";case"\\":return"\\\\";case"\n":return"\\n";case"\r":return"\\r";case"\t":return"\\t";case"\b":return"\\b";case"\f":return"\\f";case"\u2028":return"\\u2028";case"\u2029":return"\\u2029";default:return E<" "?`\\u${E.charCodeAt(0).toString(16).padStart(4,"0")}`:""}};function J(E){let w="",B=0;const q=E.length;for(let P=0;P<q;P+=1){const z=E[P],S=Q(z);if(S)w+=E.slice(B,P)+S,B=P+1}return`"${B===0?E:w+E.slice(B)}"`}var N=(E,w,B,q)=>{if(typeof w==="string")w=w.replace(/\[(\w+)\]/g,".$1").split(".");let P=E;console.log(P,B,w,q);for(let z=0;z<w.length;z++){const S=w[z];if(z===w.length-1)if(q==="MAP")P.set(S,B);else if(q==="SET")P.add(B);else P[S]=B;else{if(P[S]===void 0)P[S]=q==="SET"?new Set:q==="MAP"?new Map:/^\d+$/.test(w[z+1])?[]:{};P=P[S]}}return E};var X=(E,w=new FormData)=>{if(E===void 0)return w;return L({value:E},w)},L=(E,w,B="",q)=>{const P=M(E),z=B||"";let S=`${P} | ${z}`;if(q)S+=` | ${q}`;const A=z==="";switch(P){case"Null":w.append(S,"null");break;case"Undefined":w.append(S,"undefined");break;case"Number":case"String":case"Boolean":w.append(S,String(E));break;case"BigInt":w.append(S,E);break;case"Date":w.append(S,E.toISOString());break;case"RegExp":const{source:C,flags:G}=E;w.append(S,G?`[${J(C)},"${G}"]`:`[${J(C)}]`);break;case"File":w.append(S,E);break;case"Set":case"Array":w.append(S,"[]"),E.forEach((H,I)=>{L(H,w,`${z}[${I}]`,P==="Set"?"SET":void 0)});break;case"Object":case"Map":if(!A)w.append(S,"{}");for(let[H,I]of P==="Map"?E.entries():Object.entries(E))L(I,w,`${z===""?"":`${z}.`}${H}`,P==="Map"?"MAP":void 0);break;default:break}return w},Y=(E)=>{const{value:w}=U(E);return w},U=(E)=>{const w={};for(let[B,q]of E.entries()){const[P,z,S]=B.split(" | "),A=(C)=>N(w,z,C,S);switch(P){case"Number":A(Number(q));break;case"String":A(q);break;case"Boolean":A(q==="true");break;case"BigInt":A(BigInt(q));break;case"File":A(q);break;case"Date":A(new Date(q));break;case"RegExp":const[C,G]=JSON.parse(q);A(new RegExp(C,G));break;case"Undefined":A(void 0);break;case"Null":A(null);break;case"Array":A([]);break;case"Object":A({});break;case"Map":A(new Map);break}}return w};export{X as formify,Y as deform};
+var R = function (A) {
+		const q = Object.prototype.toString.call(A).slice(8, -1);
+		if (q === 'Object' && A instanceof Map) return 'Map';
+		if (q === 'Object' && A instanceof Set) return 'Set';
+		if (q === 'Object' && A instanceof File) return 'File';
+		return q;
+	},
+	W = (A, q = new FormData()) => {
+		if (A === void 0) return q;
+		return S({ value: A }, q);
+	},
+	S = (A, q, Q = '', L) => {
+		let N = 0;
+		const G = (w) => {
+			const J = N++,
+				E = R(w),
+				M = (O) => {
+					q.append(`${J}`, E === 'File' ? O : `${E} | ${O}`);
+				};
+			switch (E) {
+				case 'URL':
+					M(w.toString());
+					break;
+				case 'Null':
+					M('null');
+					break;
+				case 'Undefined':
+					M('undefined');
+					break;
+				case 'Number':
+				case 'String':
+				case 'Boolean':
+					M(String(w));
+					break;
+				case 'BigInt':
+					M(w);
+					break;
+				case 'Date':
+					M(w.toISOString());
+					break;
+				case 'RegExp':
+					const { source: O, flags: H } = w;
+					M(JSON.stringify([O, H]));
+					break;
+				case 'File':
+					M(w);
+					break;
+				case 'Set': {
+					const C = [];
+					w.forEach((z) => {
+						C.push(G(z));
+					}),
+						M(JSON.stringify(C));
+					break;
+				}
+				case 'Array':
+					{
+						const C = [],
+							z = w.length;
+						let B = 0;
+						for (B; B < z; B++) C.push(G(w[B]));
+						M(JSON.stringify(C));
+					}
+					break;
+				case 'Object': {
+					let C = {};
+					for (let z in w) Object.assign(C, { [z]: G(w[z]) });
+					M(JSON.stringify(C));
+					break;
+				}
+				case 'Map': {
+					const C = E === 'Map' ? w.entries() : Object.entries(w);
+					let z = {};
+					for (let B of C) Object.assign(z, { [B[0]]: G(B[1]) });
+					M(JSON.stringify(z));
+					break;
+				}
+				default:
+					break;
+			}
+			return J;
+		};
+		return G(A), q;
+	},
+	X = (A) => {
+		const { value: q } = U(A);
+		return q;
+	},
+	U = (A) => {
+		const q = (L, N, G, w) => {
+				const J = A.get(String(G)),
+					[E, M] = typeof J === 'string' ? J.split(' | ') : ['File', J],
+					O = (H) => {
+						if (w === 'Map') L.set(N, H);
+						else if (w === 'Set') L.add(H);
+						else L[N] = H;
+					};
+				switch (E) {
+					case 'URL':
+						O(new URL(M));
+						break;
+					case 'Number':
+						O(Number(M));
+						break;
+					case 'String':
+						O(M);
+						break;
+					case 'Boolean':
+						O(M === 'true');
+						break;
+					case 'BigInt':
+						O(BigInt(M));
+						break;
+					case 'File':
+						O(M);
+						break;
+					case 'Date':
+						O(new Date(M));
+						break;
+					case 'RegExp':
+						const [H, C] = JSON.parse(M);
+						O(new RegExp(H, C));
+						break;
+					case 'Undefined':
+						O(void 0);
+						break;
+					case 'Null':
+						O(null);
+						break;
+					case 'Set':
+					case 'Array':
+						{
+							const z = JSON.parse(M),
+								B = E === 'Set' ? new Set() : [],
+								P = z.length;
+							let K = 0;
+							for (K; K < P; K += 1) q(B, K, z[K], E);
+							O(B);
+						}
+						break;
+					case 'Map':
+					case 'Object':
+						{
+							const z = JSON.parse(M),
+								B = E === 'Map' ? new Map() : z;
+							for (let P in z) q(B, P, z[P], E);
+							O(B);
+						}
+						break;
+				}
+			},
+			Q = { value: 1 };
+		return q(Q, 'value', 1), Q;
+	};
+export { W as form, X as deform };
