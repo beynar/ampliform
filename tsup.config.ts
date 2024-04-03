@@ -1,20 +1,20 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-	entry: ['src/lib/index.ts', 'src/lib/client.ts'],
-	splitting: false,
+	entry: ['src/lib/index.ts'],
+	splitting: true,
 	skipNodeModulesBundle: true,
 	dts: true,
 	bundle: true,
 	minifyIdentifiers: true,
 	minifySyntax: true,
 	minifyWhitespace: true,
-	platform: 'neutral',
-	target: 'es2022',
+	platform: 'browser',
 	minify: true,
+
 	sourcemap: true,
-	format: 'cjs',
-	treeshake: false,
+	format: ['esm', 'cjs'],
+	treeshake: true,
 
 	clean: true,
 });
